@@ -9,7 +9,7 @@ Homepage: https://semplice-linux.org/
 Vcs-Git: https://github.com/vera-desktop/vera-plugin-openbox.git
 Vcs-Browser: https://github.com/vera-desktop/vera-plugin-openbox
 
-Package: vera-plugin-openbox
+Package: vera-plugin-power
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, vera-desktop
 Recommends: compton
