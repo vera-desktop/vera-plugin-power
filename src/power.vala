@@ -24,16 +24,18 @@ using Gee;
 
 namespace PowerPlugin {
 
-	public class Plugin : Peas.ExtensionBase, VeraPlugin {
+	public class Plugin : VeraPlugin, Peas.ExtensionBase {
 
 		private string HOME = Environ.get_variable(null, "HOME");
 		
 		private Up.Client client;
 		private Up.Device[] devices;
 		
+		private PowerTray power_tray;
+		
 		public Display display;
 		public Settings settings;
-
+				
 		public void init(Display display) {
 			/**
 			 * Initializes the plugin.
@@ -50,8 +52,7 @@ namespace PowerPlugin {
 			} catch (Error ex) {
 				error("Unable to load plugin settings.");
 			}
-
-			
+	
 		}
 		
 		public void startup(StartupPhase phase) {
@@ -59,16 +60,23 @@ namespace PowerPlugin {
 			 * Called by vera when doing the startup.
 			*/
 			
-			if (phase == StartupPhase.OTHER) {
+			if (phase == StartupPhase.OTHER || phase == StartupPhase.SESSION) {
 				
 				this.client = new Up.Client();
 				
-				new PowerTray(this.client);
+				this.power_tray = new PowerTray(this.client);
 			}
 			
 		}
 		
-
+		public void shutdown() {
+			/**
+			 * Cleanup.
+			*/
+			
+			this.power_tray.destroy();
+			
+		}
 	}
 }
 

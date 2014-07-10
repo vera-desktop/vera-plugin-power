@@ -21,6 +21,6 @@
 
 project {
 	name = vera-plugin-power
-	version = 0.0.1
+	version = 0.20
 	minimum-bake-version = 0.1
 }

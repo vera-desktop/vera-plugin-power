@@ -27,7 +27,8 @@ libraries.power {
 		tray/batterymenu.vala \
 		tray/preferencesmenu.vala \
 		tray/tray.vala
-	compile-flags = -fPIC
+	compile-flags = -O2 -flto
+	link-flags = -flto -Wl,--as-needed
 	vala-compile-flags = --vapidir=../vapis
 	
 	vala-packages = gee-1.0 libpeas-1.0 gtk+-3.0 vera x11 upower-glib
