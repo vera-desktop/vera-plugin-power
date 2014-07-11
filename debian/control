@@ -6,13 +6,12 @@ Build-Depends: debhelper (>= 8.0.0), build-essential, bake, libvera-dev,
  libvera-vapi, libgee-dev, libpeas-dev, libgtk-3-dev, libupower-glib-dev, valac-0.24
 Standards-Version: 3.9.5
 Homepage: https://semplice-linux.org/
-Vcs-Git: https://github.com/vera-desktop/vera-plugin-openbox.git
-Vcs-Browser: https://github.com/vera-desktop/vera-plugin-openbox
+Vcs-Git: https://github.com/vera-desktop/vera-plugin-power.git
+Vcs-Browser: https://github.com/vera-desktop/vera-plugin-power
 
 Package: vera-plugin-power
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, vera-desktop
-Recommends: compton
 Description: vera power plugin
  vera-plugin-power is the vera plugin that shows the informations
  of the currently plugged batteries.
