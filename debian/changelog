@@ -1,3 +1,9 @@
+vera-plugin-power (0.20-4) devel; urgency=medium
+
+  * Fixed for real.
+
+ -- Eugenio Paolantonio (g7) <me@medesimo.eu>  Fri, 11 Jul 2014 02:52:06 +0200
+
 vera-plugin-power (0.20-3) devel; urgency=medium
 
   * Fixed build issues (?)
