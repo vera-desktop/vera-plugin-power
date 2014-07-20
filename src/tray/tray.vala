@@ -26,6 +26,8 @@ namespace PowerPlugin {
 		 * This class represents the Tray icon of a battery.
 		*/
 		
+		private HashTable<string, Up.Device> paths = new HashTable<string, Up.Device>(direct_hash, direct_equal);
+		
 		private Gtk.StatusIcon status;
 		private PowerMenu menu;
 		private PowerPreferencesMenu preferences;
@@ -58,13 +60,13 @@ namespace PowerPlugin {
 			
 		}
 		
-		private void on_device_removed(Up.Device device) {
+		private void on_device_removed(string device) {
 			/**
 			 * Fired when a device has been removed.
 			*/
 			
 			/* FIXME: Also handle the tray */
-			this.menu.remove_device(device);
+			this.menu.remove_device(this.paths.get(device));
 			
 		}
 		
@@ -131,14 +133,22 @@ namespace PowerPlugin {
 			
 			this.client = client;
 			
-			/* Enumerate devices */
-			this.client.enumerate_devices_sync();
-			
 			/* Build informations... */
-			this.client.get_devices().foreach(this.update_informations);
+			this.client.get_devices().foreach(
+				(device) => {
+					this.paths.set(device.get_object_path(), device);
+					
+					this.update_informations(device);
+					device.notify.connect(
+						(s, p) => {
+							/* Nested lambdas, yay! */
+							this.update_informations(device);
+						}
+					);
+				}
+			);
 			
 			/* Connect things up */
-			this.client.device_changed.connect(this.update_informations);
 			this.client.device_added.connect(this.update_informations);
 			this.client.device_removed.connect(this.on_device_removed);
 			

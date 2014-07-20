@@ -6,60 +6,50 @@ namespace Up {
 	public class Client : GLib.Object {
 		[CCode (cname = "up_client_new", has_construct_function = false)]
 		public Client ();
-		[CCode (cname = "up_client_about_to_sleep_sync")]
-		public bool about_to_sleep_sync (Up.SleepKind sleep_kind, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		[CCode (cname = "up_client_enumerate_devices_sync")]
-		public bool enumerate_devices_sync (GLib.Cancellable? cancellable = null) throws GLib.Error;
-		[CCode (cname = "up_client_get_can_hibernate")]
-		public bool get_can_hibernate ();
-		[CCode (cname = "up_client_get_can_suspend")]
-		public bool get_can_suspend ();
+		[CCode (cname = "up_client_get_critical_action")]
+		public string get_critical_action ();
 		[CCode (cname = "up_client_get_daemon_version")]
 		public unowned string get_daemon_version ();
 		[CCode (cname = "up_client_get_devices")]
 		public GLib.GenericArray<Up.Device> get_devices ();
+		[CCode (cname = "up_client_get_display_device")]
+		public Up.Device get_display_device ();
 		[CCode (cname = "up_client_get_is_docked")]
 		public bool get_is_docked ();
-		[CCode (cname = "up_client_get_lid_force_sleep")]
-		public bool get_lid_force_sleep ();
 		[CCode (cname = "up_client_get_lid_is_closed")]
 		public bool get_lid_is_closed ();
 		[CCode (cname = "up_client_get_lid_is_present")]
 		public bool get_lid_is_present ();
 		[CCode (cname = "up_client_get_on_battery")]
 		public bool get_on_battery ();
-		[CCode (cname = "up_client_get_on_low_battery")]
-		public bool get_on_low_battery ();
-		[CCode (cname = "up_client_get_properties_sync")]
-		public bool get_properties_sync (GLib.Cancellable? cancellable = null) throws GLib.Error;
-		[CCode (cname = "up_client_hibernate_sync")]
-		public bool hibernate_sync (GLib.Cancellable? cancellable = null) throws GLib.Error;
-		[CCode (cname = "up_client_suspend_sync")]
-		public bool suspend_sync (GLib.Cancellable? cancellable = null) throws GLib.Error;
-		[NoAccessorMethod]
-		public bool can_hibernate { get; }
-		[NoAccessorMethod]
-		public bool can_suspend { get; }
 		[NoAccessorMethod]
 		public string daemon_version { owned get; }
 		[NoAccessorMethod]
 		public bool is_docked { get; }
-		[NoAccessorMethod]
-		public bool lid_force_sleep { get; }
 		[NoAccessorMethod]
 		public bool lid_is_closed { get; }
 		[NoAccessorMethod]
 		public bool lid_is_present { get; }
 		[NoAccessorMethod]
 		public bool on_battery { get; }
-		[NoAccessorMethod]
-		public bool on_low_battery { get; }
-		public virtual signal void changed ();
 		public virtual signal void device_added (Up.Device device);
-		public virtual signal void device_changed (Up.Device device);
-		public virtual signal void device_removed (Up.Device device);
-		public virtual signal void notify_resume (uint sleep_kind);
-		public virtual signal void notify_sleep (uint sleep_kind);
+		public virtual signal void device_removed (string object_path);
+	}
+	[CCode (cheader_filename = "upower.h", type_id = "up_client_glue_proxy_get_type ()")]
+	public class ClientGlueProxy : GLib.DBusProxy, GLib.AsyncInitable, GLib.DBusInterface, GLib.Initable, Up.ClientGlue {
+		[CCode (cname = "up_client_glue_proxy_new", has_construct_function = false)]
+		public async ClientGlueProxy (GLib.DBusConnection connection, GLib.DBusProxyFlags flags, string? name, string object_path, GLib.Cancellable? cancellable) throws GLib.Error;
+		[CCode (cname = "up_client_glue_proxy_new_for_bus", has_construct_function = false)]
+		public async ClientGlueProxy.for_bus (GLib.BusType bus_type, GLib.DBusProxyFlags flags, string name, string object_path, GLib.Cancellable? cancellable) throws GLib.Error;
+		[CCode (cname = "up_client_glue_proxy_new_for_bus_sync", has_construct_function = false, type = "UpClientGlue*")]
+		public ClientGlueProxy.for_bus_sync (GLib.BusType bus_type, GLib.DBusProxyFlags flags, string name, string object_path, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (cname = "up_client_glue_proxy_new_sync", has_construct_function = false, type = "UpClientGlue*")]
+		public ClientGlueProxy.sync (GLib.DBusConnection connection, GLib.DBusProxyFlags flags, string? name, string object_path, GLib.Cancellable? cancellable = null) throws GLib.Error;
+	}
+	[CCode (cheader_filename = "upower.h", type_id = "up_client_glue_skeleton_get_type ()")]
+	public class ClientGlueSkeleton : GLib.DBusInterfaceSkeleton, GLib.DBusInterface, Up.ClientGlue {
+		[CCode (cname = "up_client_glue_skeleton_new", has_construct_function = false, type = "UpClientGlue*")]
+		public ClientGlueSkeleton ();
 	}
 	[CCode (cheader_filename = "upower.h", type_id = "up_device_get_type ()")]
 	public class Device : GLib.Object {
@@ -75,6 +65,10 @@ namespace Up {
 		public static Up.DeviceKind kind_from_string (string type);
 		[CCode (cname = "up_device_kind_to_string")]
 		public static unowned string kind_to_string (Up.DeviceKind type_enum);
+		[CCode (cname = "up_device_level_from_string")]
+		public static Up.DeviceLevel level_from_string (string level);
+		[CCode (cname = "up_device_level_to_string")]
+		public static unowned string level_to_string (Up.DeviceLevel level_enum);
 		[CCode (cname = "up_device_refresh_sync")]
 		public bool refresh_sync (GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[CCode (cname = "up_device_set_object_path_sync")]
@@ -106,6 +100,8 @@ namespace Up {
 		[NoAccessorMethod]
 		public bool has_statistics { get; set; }
 		[NoAccessorMethod]
+		public string icon_name { owned get; set; }
+		[NoAccessorMethod]
 		public bool is_present { get; set; }
 		[NoAccessorMethod]
 		public bool is_rechargeable { get; set; }
@@ -124,12 +120,6 @@ namespace Up {
 		[NoAccessorMethod]
 		public bool power_supply { get; set; }
 		[NoAccessorMethod]
-		public bool recall_notice { get; set; }
-		[NoAccessorMethod]
-		public string recall_url { owned get; set; }
-		[NoAccessorMethod]
-		public string recall_vendor { owned get; set; }
-		[NoAccessorMethod]
 		public string serial { owned get; set; }
 		[NoAccessorMethod]
 		public uint state { get; set; }
@@ -147,7 +137,24 @@ namespace Up {
 		public string vendor { owned get; set; }
 		[NoAccessorMethod]
 		public double voltage { get; set; }
-		public virtual signal void changed ();
+		[NoAccessorMethod]
+		public uint warning_level { get; set; }
+	}
+	[CCode (cheader_filename = "upower.h", type_id = "up_device_glue_proxy_get_type ()")]
+	public class DeviceGlueProxy : GLib.DBusProxy, GLib.AsyncInitable, GLib.DBusInterface, GLib.Initable, Up.DeviceGlue {
+		[CCode (cname = "up_device_glue_proxy_new", has_construct_function = false)]
+		public async DeviceGlueProxy (GLib.DBusConnection connection, GLib.DBusProxyFlags flags, string? name, string object_path, GLib.Cancellable? cancellable) throws GLib.Error;
+		[CCode (cname = "up_device_glue_proxy_new_for_bus", has_construct_function = false)]
+		public async DeviceGlueProxy.for_bus (GLib.BusType bus_type, GLib.DBusProxyFlags flags, string name, string object_path, GLib.Cancellable? cancellable) throws GLib.Error;
+		[CCode (cname = "up_device_glue_proxy_new_for_bus_sync", has_construct_function = false, type = "UpDeviceGlue*")]
+		public DeviceGlueProxy.for_bus_sync (GLib.BusType bus_type, GLib.DBusProxyFlags flags, string name, string object_path, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (cname = "up_device_glue_proxy_new_sync", has_construct_function = false, type = "UpDeviceGlue*")]
+		public DeviceGlueProxy.sync (GLib.DBusConnection connection, GLib.DBusProxyFlags flags, string? name, string object_path, GLib.Cancellable? cancellable = null) throws GLib.Error;
+	}
+	[CCode (cheader_filename = "upower.h", type_id = "up_device_glue_skeleton_get_type ()")]
+	public class DeviceGlueSkeleton : GLib.DBusInterfaceSkeleton, GLib.DBusInterface, Up.DeviceGlue {
+		[CCode (cname = "up_device_glue_skeleton_new", has_construct_function = false, type = "UpDeviceGlue*")]
+		public DeviceGlueSkeleton ();
 	}
 	[CCode (cheader_filename = "upower.h", type_id = "up_history_item_get_type ()")]
 	public class HistoryItem : GLib.Object {
@@ -177,65 +184,6 @@ namespace Up {
 		public uint time { get; set; }
 		[NoAccessorMethod]
 		public double value { get; set; }
-	}
-	[CCode (cheader_filename = "upower.h", type_id = "up_qos_item_get_type ()")]
-	public class QosItem : GLib.Object {
-		[CCode (cname = "up_qos_item_new", has_construct_function = false)]
-		public QosItem ();
-		[CCode (cname = "up_qos_item_get_cmdline")]
-		public unowned string get_cmdline ();
-		[CCode (cname = "up_qos_item_get_cookie")]
-		public uint get_cookie ();
-		[CCode (cname = "up_qos_item_get_kind")]
-		public Up.QosKind get_kind ();
-		[CCode (cname = "up_qos_item_get_persistent")]
-		public bool get_persistent ();
-		[CCode (cname = "up_qos_item_get_pid")]
-		public uint get_pid ();
-		[CCode (cname = "up_qos_item_get_sender")]
-		public unowned string get_sender ();
-		[CCode (cname = "up_qos_item_get_timespec")]
-		public uint64 get_timespec ();
-		[CCode (cname = "up_qos_item_get_uid")]
-		public uint get_uid ();
-		[CCode (cname = "up_qos_item_get_value")]
-		public int get_value ();
-		[CCode (cname = "up_qos_item_set_cmdline")]
-		public void set_cmdline (string cmdline);
-		[CCode (cname = "up_qos_item_set_cookie")]
-		public void set_cookie (uint cookie);
-		[CCode (cname = "up_qos_item_set_kind")]
-		public void set_kind (Up.QosKind type);
-		[CCode (cname = "up_qos_item_set_persistent")]
-		public void set_persistent (bool persistent);
-		[CCode (cname = "up_qos_item_set_pid")]
-		public void set_pid (uint pid);
-		[CCode (cname = "up_qos_item_set_sender")]
-		public void set_sender (string sender);
-		[CCode (cname = "up_qos_item_set_timespec")]
-		public void set_timespec (uint64 timespec);
-		[CCode (cname = "up_qos_item_set_uid")]
-		public void set_uid (uint uid);
-		[CCode (cname = "up_qos_item_set_value")]
-		public void set_value (int value);
-		[NoAccessorMethod]
-		public string cmdline { owned get; set; }
-		[NoAccessorMethod]
-		public uint cookie { get; set; }
-		[NoAccessorMethod]
-		public bool persistent { get; set; }
-		[NoAccessorMethod]
-		public uint pid { get; set; }
-		[NoAccessorMethod]
-		public string sender { owned get; set; }
-		[NoAccessorMethod]
-		public uint64 timespec { get; set; }
-		[NoAccessorMethod]
-		public uint type { get; set; }
-		[NoAccessorMethod]
-		public uint uid { get; set; }
-		[NoAccessorMethod]
-		public int value { get; set; }
 	}
 	[CCode (cheader_filename = "upower.h", type_id = "up_stats_item_get_type ()")]
 	public class StatsItem : GLib.Object {
@@ -310,6 +258,179 @@ namespace Up {
 		public virtual signal void data_changed ();
 		public virtual signal void total_changed (uint value);
 	}
+	[CCode (cheader_filename = "upower.h", type_id = "up_wakeups_glue_proxy_get_type ()")]
+	public class WakeupsGlueProxy : GLib.DBusProxy, GLib.AsyncInitable, GLib.DBusInterface, GLib.Initable, Up.WakeupsGlue {
+		[CCode (cname = "up_wakeups_glue_proxy_new", has_construct_function = false)]
+		public async WakeupsGlueProxy (GLib.DBusConnection connection, GLib.DBusProxyFlags flags, string? name, string object_path, GLib.Cancellable? cancellable) throws GLib.Error;
+		[CCode (cname = "up_wakeups_glue_proxy_new_for_bus", has_construct_function = false)]
+		public async WakeupsGlueProxy.for_bus (GLib.BusType bus_type, GLib.DBusProxyFlags flags, string name, string object_path, GLib.Cancellable? cancellable) throws GLib.Error;
+		[CCode (cname = "up_wakeups_glue_proxy_new_for_bus_sync", has_construct_function = false, type = "UpWakeupsGlue*")]
+		public WakeupsGlueProxy.for_bus_sync (GLib.BusType bus_type, GLib.DBusProxyFlags flags, string name, string object_path, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (cname = "up_wakeups_glue_proxy_new_sync", has_construct_function = false, type = "UpWakeupsGlue*")]
+		public WakeupsGlueProxy.sync (GLib.DBusConnection connection, GLib.DBusProxyFlags flags, string? name, string object_path, GLib.Cancellable? cancellable = null) throws GLib.Error;
+	}
+	[CCode (cheader_filename = "upower.h", type_id = "up_wakeups_glue_skeleton_get_type ()")]
+	public class WakeupsGlueSkeleton : GLib.DBusInterfaceSkeleton, GLib.DBusInterface, Up.WakeupsGlue {
+		[CCode (cname = "up_wakeups_glue_skeleton_new", has_construct_function = false, type = "UpWakeupsGlue*")]
+		public WakeupsGlueSkeleton ();
+	}
+	[CCode (cheader_filename = "upower.h", type_id = "up_client_glue_get_type ()")]
+	public interface ClientGlue : GLib.Object {
+		[CCode (cname = "up_client_glue_call_enumerate_devices")]
+		public async bool call_enumerate_devices (GLib.Cancellable? cancellable, out string out_devices) throws GLib.Error;
+		[CCode (cname = "up_client_glue_call_enumerate_devices_sync")]
+		public bool call_enumerate_devices_sync (out string out_devices, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (cname = "up_client_glue_call_get_critical_action")]
+		public async bool call_get_critical_action (GLib.Cancellable? cancellable, out string out_action) throws GLib.Error;
+		[CCode (cname = "up_client_glue_call_get_critical_action_sync")]
+		public bool call_get_critical_action_sync (out string out_action, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (cname = "up_client_glue_call_get_display_device")]
+		public async bool call_get_display_device (GLib.Cancellable? cancellable, out string out_device) throws GLib.Error;
+		[CCode (cname = "up_client_glue_call_get_display_device_sync")]
+		public bool call_get_display_device_sync (out string out_device, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (cname = "up_client_glue_complete_enumerate_devices")]
+		public void complete_enumerate_devices (owned GLib.DBusMethodInvocation invocation, string devices);
+		[CCode (cname = "up_client_glue_complete_get_critical_action")]
+		public void complete_get_critical_action (owned GLib.DBusMethodInvocation invocation, string action);
+		[CCode (cname = "up_client_glue_complete_get_display_device")]
+		public void complete_get_display_device (owned GLib.DBusMethodInvocation invocation, string device);
+		[CCode (cname = "up_client_glue_emit_device_added")]
+		public void emit_device_added (string arg_device);
+		[CCode (cname = "up_client_glue_emit_device_removed")]
+		public void emit_device_removed (string arg_device);
+		[CCode (cname = "up_client_glue_interface_info")]
+		public static unowned GLib.DBusInterfaceInfo interface_info ();
+		[CCode (cname = "up_client_glue_override_properties")]
+		public static uint override_properties (GLib.ObjectClass klass, uint property_id_begin);
+		[NoAccessorMethod]
+		public abstract string daemon_version { owned get; set; }
+		[NoAccessorMethod]
+		public abstract bool is_docked { get; set; }
+		[NoAccessorMethod]
+		public abstract bool lid_is_closed { get; set; }
+		[NoAccessorMethod]
+		public abstract bool lid_is_present { get; set; }
+		[NoAccessorMethod]
+		public abstract bool on_battery { get; set; }
+		public virtual signal void device_added (string arg_device);
+		public virtual signal void device_removed (string arg_device);
+		public virtual signal bool handle_enumerate_devices (GLib.DBusMethodInvocation invocation);
+		public virtual signal bool handle_get_critical_action (GLib.DBusMethodInvocation invocation);
+		public virtual signal bool handle_get_display_device (GLib.DBusMethodInvocation invocation);
+	}
+	[CCode (cheader_filename = "upower.h", type_id = "up_device_glue_get_type ()")]
+	public interface DeviceGlue : GLib.Object {
+		[CCode (cname = "up_device_glue_call_get_history")]
+		public async bool call_get_history (string arg_type, uint arg_timespan, uint arg_resolution, GLib.Cancellable? cancellable, out GLib.Variant out_data) throws GLib.Error;
+		[CCode (cname = "up_device_glue_call_get_history_sync")]
+		public bool call_get_history_sync (string arg_type, uint arg_timespan, uint arg_resolution, out GLib.Variant out_data, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (cname = "up_device_glue_call_get_statistics")]
+		public async bool call_get_statistics (string arg_type, GLib.Cancellable? cancellable, out GLib.Variant out_data) throws GLib.Error;
+		[CCode (cname = "up_device_glue_call_get_statistics_sync")]
+		public bool call_get_statistics_sync (string arg_type, out GLib.Variant out_data, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (cname = "up_device_glue_call_refresh")]
+		public async bool call_refresh (GLib.Cancellable? cancellable) throws GLib.Error;
+		[CCode (cname = "up_device_glue_call_refresh_sync")]
+		public bool call_refresh_sync (GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (cname = "up_device_glue_complete_get_history")]
+		public void complete_get_history (owned GLib.DBusMethodInvocation invocation, GLib.Variant data);
+		[CCode (cname = "up_device_glue_complete_get_statistics")]
+		public void complete_get_statistics (owned GLib.DBusMethodInvocation invocation, GLib.Variant data);
+		[CCode (cname = "up_device_glue_complete_refresh")]
+		public void complete_refresh (owned GLib.DBusMethodInvocation invocation);
+		[CCode (cname = "up_device_glue_interface_info")]
+		public static unowned GLib.DBusInterfaceInfo interface_info ();
+		[CCode (cname = "up_device_glue_override_properties")]
+		public static uint override_properties (GLib.ObjectClass klass, uint property_id_begin);
+		[NoAccessorMethod]
+		public abstract double capacity { get; set; }
+		[NoAccessorMethod]
+		public abstract double energy { get; set; }
+		[NoAccessorMethod]
+		public abstract double energy_empty { get; set; }
+		[NoAccessorMethod]
+		public abstract double energy_full { get; set; }
+		[NoAccessorMethod]
+		public abstract double energy_full_design { get; set; }
+		[NoAccessorMethod]
+		public abstract double energy_rate { get; set; }
+		[NoAccessorMethod]
+		public abstract bool has_history { get; set; }
+		[NoAccessorMethod]
+		public abstract bool has_statistics { get; set; }
+		[NoAccessorMethod]
+		public abstract string icon_name { owned get; set; }
+		[NoAccessorMethod]
+		public abstract bool is_present { get; set; }
+		[NoAccessorMethod]
+		public abstract bool is_rechargeable { get; set; }
+		[NoAccessorMethod]
+		public abstract double luminosity { get; set; }
+		[NoAccessorMethod]
+		public abstract string model { owned get; set; }
+		[NoAccessorMethod]
+		public abstract string native_path { owned get; set; }
+		[NoAccessorMethod]
+		public abstract bool online { get; set; }
+		[NoAccessorMethod]
+		public abstract double percentage { get; set; }
+		[NoAccessorMethod]
+		public abstract bool power_supply { get; set; }
+		[NoAccessorMethod]
+		public abstract string serial { owned get; set; }
+		[NoAccessorMethod]
+		public abstract uint state { get; set; }
+		[NoAccessorMethod]
+		public abstract uint technology { get; set; }
+		[NoAccessorMethod]
+		public abstract double temperature { get; set; }
+		[NoAccessorMethod]
+		public abstract int64 time_to_empty { get; set; }
+		[NoAccessorMethod]
+		public abstract int64 time_to_full { get; set; }
+		[NoAccessorMethod]
+		public abstract uint type { get; set; }
+		[NoAccessorMethod]
+		public abstract uint64 update_time { get; set; }
+		[NoAccessorMethod]
+		public abstract string vendor { owned get; set; }
+		[NoAccessorMethod]
+		public abstract double voltage { get; set; }
+		[NoAccessorMethod]
+		public abstract uint warning_level { get; set; }
+		public virtual signal bool handle_get_history (GLib.DBusMethodInvocation invocation, string arg_type, uint arg_timespan, uint arg_resolution);
+		public virtual signal bool handle_get_statistics (GLib.DBusMethodInvocation invocation, string arg_type);
+		public virtual signal bool handle_refresh (GLib.DBusMethodInvocation invocation);
+	}
+	[CCode (cheader_filename = "upower.h", type_id = "up_wakeups_glue_get_type ()")]
+	public interface WakeupsGlue : GLib.Object {
+		[CCode (cname = "up_wakeups_glue_call_get_data")]
+		public async bool call_get_data (GLib.Cancellable? cancellable, out GLib.Variant out_data) throws GLib.Error;
+		[CCode (cname = "up_wakeups_glue_call_get_data_sync")]
+		public bool call_get_data_sync (out GLib.Variant out_data, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (cname = "up_wakeups_glue_call_get_total")]
+		public async bool call_get_total (GLib.Cancellable? cancellable, out uint out_value) throws GLib.Error;
+		[CCode (cname = "up_wakeups_glue_call_get_total_sync")]
+		public bool call_get_total_sync (out uint out_value, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (cname = "up_wakeups_glue_complete_get_data")]
+		public void complete_get_data (owned GLib.DBusMethodInvocation invocation, GLib.Variant data);
+		[CCode (cname = "up_wakeups_glue_complete_get_total")]
+		public void complete_get_total (owned GLib.DBusMethodInvocation invocation, uint value);
+		[CCode (cname = "up_wakeups_glue_emit_data_changed")]
+		public void emit_data_changed ();
+		[CCode (cname = "up_wakeups_glue_emit_total_changed")]
+		public void emit_total_changed (uint arg_value);
+		[CCode (cname = "up_wakeups_glue_interface_info")]
+		public static unowned GLib.DBusInterfaceInfo interface_info ();
+		[CCode (cname = "up_wakeups_glue_override_properties")]
+		public static uint override_properties (GLib.ObjectClass klass, uint property_id_begin);
+		[NoAccessorMethod]
+		public abstract bool has_capability { get; set; }
+		public virtual signal void data_changed ();
+		public virtual signal bool handle_get_data (GLib.DBusMethodInvocation invocation);
+		public virtual signal bool handle_get_total (GLib.DBusMethodInvocation invocation);
+		public virtual signal void total_changed (uint arg_value);
+	}
 	[CCode (cheader_filename = "upower.h", cprefix = "UP_DEVICE_KIND_", has_type_id = false)]
 	public enum DeviceKind {
 		UNKNOWN,
@@ -324,6 +445,16 @@ namespace Up {
 		MEDIA_PLAYER,
 		TABLET,
 		COMPUTER,
+		LAST
+	}
+	[CCode (cheader_filename = "upower.h", cprefix = "UP_DEVICE_LEVEL_", has_type_id = false)]
+	public enum DeviceLevel {
+		UNKNOWN,
+		NONE,
+		DISCHARGING,
+		LOW,
+		CRITICAL,
+		ACTION,
 		LAST
 	}
 	[CCode (cheader_filename = "upower.h", cprefix = "UP_DEVICE_STATE_", has_type_id = false)]
@@ -348,33 +479,22 @@ namespace Up {
 		NICKEL_METAL_HYDRIDE,
 		LAST
 	}
-	[CCode (cheader_filename = "upower.h", cprefix = "UP_QOS_KIND_", has_type_id = false)]
-	public enum QosKind {
-		UNKNOWN,
-		NETWORK,
-		CPU_DMA,
-		LAST
-	}
-	[CCode (cheader_filename = "upower.h", cprefix = "UP_SLEEP_KIND_", has_type_id = false)]
-	public enum SleepKind {
-		UNKNOWN,
-		SUSPEND,
-		HIBERNATE,
-		HYBRID,
-		LAST
-	}
 	[CCode (cheader_filename = "upower.h", cname = "UP_MAJOR_VERSION")]
 	public const int MAJOR_VERSION;
 	[CCode (cheader_filename = "upower.h", cname = "UP_MICRO_VERSION")]
 	public const int MICRO_VERSION;
 	[CCode (cheader_filename = "upower.h", cname = "UP_MINOR_VERSION")]
 	public const int MINOR_VERSION;
-	[CCode (cheader_filename = "upower.h", cname = "up_qos_kind_from_string")]
-	public static Up.QosKind qos_kind_from_string (string type);
-	[CCode (cheader_filename = "upower.h", cname = "up_qos_kind_to_string")]
-	public static unowned string qos_kind_to_string (Up.QosKind type);
-	[CCode (cheader_filename = "upower.h", cname = "up_sleep_kind_from_string")]
-	public static Up.SleepKind sleep_kind_from_string (string sleep_kind);
-	[CCode (cheader_filename = "upower.h", cname = "up_sleep_kind_to_string")]
-	public static unowned string sleep_kind_to_string (Up.SleepKind sleep_kind_enum);
+	[CCode (cheader_filename = "upower.h", cname = "up_client_glue_interface_info")]
+	public static unowned GLib.DBusInterfaceInfo client_glue_interface_info ();
+	[CCode (cheader_filename = "upower.h", cname = "up_client_glue_override_properties")]
+	public static uint client_glue_override_properties (GLib.ObjectClass klass, uint property_id_begin);
+	[CCode (cheader_filename = "upower.h", cname = "up_device_glue_interface_info")]
+	public static unowned GLib.DBusInterfaceInfo device_glue_interface_info ();
+	[CCode (cheader_filename = "upower.h", cname = "up_device_glue_override_properties")]
+	public static uint device_glue_override_properties (GLib.ObjectClass klass, uint property_id_begin);
+	[CCode (cheader_filename = "upower.h", cname = "up_wakeups_glue_interface_info")]
+	public static unowned GLib.DBusInterfaceInfo wakeups_glue_interface_info ();
+	[CCode (cheader_filename = "upower.h", cname = "up_wakeups_glue_override_properties")]
+	public static uint wakeups_glue_override_properties (GLib.ObjectClass klass, uint property_id_begin);
 }
