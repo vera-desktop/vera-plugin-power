@@ -33,7 +33,6 @@ namespace PowerPlugin {
 		private PowerPreferencesMenu preferences;
 		
 		private Up.Client client;
-		private Up.Device current_device;
 		
 		private void update_tray(Up.Device device) {
 			/**
@@ -80,7 +79,9 @@ namespace PowerPlugin {
 			 * We now need to update the tray icon.
 			 * We look only at the main battery.
 			*/
-						
+			
+			message(device.to_text());
+			
 			if (device.power_supply && device.kind == Up.DeviceKind.BATTERY) {
 				this.update_tray(device);
 			}

@@ -20,16 +20,12 @@
 */
 
 using Vera;
-using Gee;
 
 namespace PowerPlugin {
 
 	public class Plugin : VeraPlugin, Peas.ExtensionBase {
-
-		private string HOME = Environ.get_variable(null, "HOME");
 		
 		private Up.Client client;
-		private Up.Device[] devices;
 		
 		private PowerTray power_tray;
 		
@@ -55,6 +51,47 @@ namespace PowerPlugin {
 	
 		}
 		
+		private void create_power_tray() {
+			/**
+			 * Creates the power tray and shows it.
+			*/
+			
+			this.power_tray = new PowerTray(this.client);
+			
+		}
+		
+		private void destroy_power_tray() {
+			/**
+			 * Destroys the power tray.
+			*/
+			
+			this.power_tray.destroy();
+			this.power_tray = null;
+		}
+		
+		private bool check_for_batteries() {
+			/**
+			 * Returns True if at least one battery has been found,
+			 * False otherwise.
+			*/
+			
+			
+			bool found = false;
+			
+			this.client.get_devices().foreach(
+				(device) => {
+					
+					if (device.is_present && device.kind != Up.DeviceKind.LINE_POWER)
+						found = true;
+						return;
+				
+				}
+			);
+			
+			
+			return found;
+		}
+		
 		public void startup(StartupPhase phase) {
 			/**
 			 * Called by vera when doing the startup.
@@ -64,7 +101,26 @@ namespace PowerPlugin {
 				
 				this.client = new Up.Client();
 				
-				this.power_tray = new PowerTray(this.client);
+				if (this.check_for_batteries()) {
+					this.create_power_tray();
+				}
+				
+				/* Show/remove tray when needed */
+				this.client.device_added.connect(
+					(device) => {
+						if (this.power_tray == null && this.check_for_batteries()) {
+							this.create_power_tray();
+						}
+					}
+				);
+				this.client.device_removed.connect(
+					(device) => {
+						if (this.power_tray != null && !this.check_for_batteries()) {
+							this.destroy_power_tray();
+						}
+					}
+				);
+								
 			}
 			
 		}
@@ -74,7 +130,8 @@ namespace PowerPlugin {
 			 * Cleanup.
 			*/
 			
-			this.power_tray.destroy();
+			this.destroy_power_tray();
+			this.client = null;
 			
 		}
 	}
