@@ -26,14 +26,13 @@ namespace PowerPlugin {
 		 * This class represents the Tray icon of a battery.
 		*/
 		
-		private HashTable<string, Up.Device> paths = new HashTable<string, Up.Device>(direct_hash, direct_equal);
+		private HashTable<string, Up.Device> paths = new HashTable<string, Up.Device>(str_hash, str_equal);
 		
 		private Gtk.StatusIcon status;
 		private PowerMenu menu;
 		private PowerPreferencesMenu preferences;
 		
 		private Up.Client client;
-		private Up.Device current_device;
 		
 		private void update_tray(Up.Device device) {
 			/**
@@ -76,14 +75,11 @@ namespace PowerPlugin {
 			 * current battery state.
 			*/
 			
-			message("Updating informations");
-			message(device.to_text());
-
 			/*
 			 * We now need to update the tray icon.
 			 * We look only at the main battery.
 			*/
-			
+						
 			if (device.power_supply && device.kind == Up.DeviceKind.BATTERY) {
 				this.update_tray(device);
 			}
