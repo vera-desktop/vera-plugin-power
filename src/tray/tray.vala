@@ -79,9 +79,7 @@ namespace PowerPlugin {
 			 * We now need to update the tray icon.
 			 * We look only at the main battery.
 			*/
-			
-			message(device.to_text());
-			
+						
 			if (device.power_supply && device.kind == Up.DeviceKind.BATTERY) {
 				this.update_tray(device);
 			}
