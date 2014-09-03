@@ -38,7 +38,7 @@ namespace PowerPlugin {
 		 * tray icon.
 		*/
 		
-		private HashTable<Up.Device, DeviceInTray?> device_table = new HashTable<Up.Device, DeviceInTray?>(direct_hash, direct_equal);
+		private HashTable<string, DeviceInTray?> device_table = new HashTable<string, DeviceInTray?>(str_hash, str_equal);
 		
 		public PowerMenu() {
 			/**
@@ -62,16 +62,16 @@ namespace PowerPlugin {
 			 * Removes the device.
 			*/
 			
-			if (!device_table.contains(device))
+			if (!device_table.contains(device.get_object_path()))
 				return;
 			
-			DeviceInTray dev_ = device_table.get(device);
+			DeviceInTray dev_ = device_table.get(device.get_object_path());
 			
 			dev_.battery_model.destroy();
 			dev_.battery_status.destroy();
 			dev_.battery_time.destroy();
 			
-			device_table.remove(device);
+			device_table.remove(device.get_object_path());
 			
 		}			
 		
@@ -82,7 +82,7 @@ namespace PowerPlugin {
 			
 			DeviceInTray dev_;
 			
-			if (!device_table.contains(device)) {
+			if (!device_table.contains(device.get_object_path())) {
 				/* New device! */
 				dev_ = DeviceInTray();
 				
@@ -111,10 +111,10 @@ namespace PowerPlugin {
 				//dev_.battery_time.set_image(new Gtk.Image.from_icon_name("preferences-system-time", Gtk.IconSize.MENU));
 				this.append(dev_.battery_time);
 				
-				this.device_table.insert(device, dev_);
+				this.device_table.insert(device.get_object_path(), dev_);
 			} else {
 				/* Update! */
-				dev_ = device_table.get(device);
+				dev_ = device_table.get(device.get_object_path());
 			}
 			
 
