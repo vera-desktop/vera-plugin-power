@@ -14,8 +14,6 @@ namespace Up {
 		public GLib.GenericArray<Up.Device> get_devices ();
 		[CCode (cname = "up_client_get_display_device")]
 		public Up.Device get_display_device ();
-		[CCode (cname = "up_client_get_is_docked")]
-		public bool get_is_docked ();
 		[CCode (cname = "up_client_get_lid_is_closed")]
 		public bool get_lid_is_closed ();
 		[CCode (cname = "up_client_get_lid_is_present")]
@@ -24,8 +22,6 @@ namespace Up {
 		public bool get_on_battery ();
 		[NoAccessorMethod]
 		public string daemon_version { owned get; }
-		[NoAccessorMethod]
-		public bool is_docked { get; }
 		[NoAccessorMethod]
 		public bool lid_is_closed { get; }
 		[NoAccessorMethod]
@@ -304,8 +300,6 @@ namespace Up {
 		public static uint override_properties (GLib.ObjectClass klass, uint property_id_begin);
 		[NoAccessorMethod]
 		public abstract string daemon_version { owned get; set; }
-		[NoAccessorMethod]
-		public abstract bool is_docked { get; set; }
 		[NoAccessorMethod]
 		public abstract bool lid_is_closed { get; set; }
 		[NoAccessorMethod]
