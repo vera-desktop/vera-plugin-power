@@ -52,7 +52,7 @@ namespace PowerPlugin {
 			
 			text_time = Common.get_remaining_time(device);
 			if (text_time != null) {
-				tooltip += @", $text_time remaining.";
+				tooltip += @", $text_time remaining";
 			}
 			
 			this.status.set_tooltip_text(tooltip);
