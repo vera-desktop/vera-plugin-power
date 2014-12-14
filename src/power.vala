@@ -35,6 +35,7 @@ namespace PowerPlugin {
 		private logindInterface? logind = null;
 		
 		private Notify.Notification? low_battery_notification = null;
+		private Notify.Notification? state_notification = null;
 						
 		public void init(Display display) {
 			/**
@@ -130,6 +131,32 @@ namespace PowerPlugin {
 			
 		}
 		
+		private void on_power_supply_state_change(Object _device, ParamSpec spec) {
+			/**
+			 * Fired when the power supply percentage has been changed.
+			*/
+			
+			Up.Device device = _device as Up.Device;
+			
+			/* Create notification if we should */
+			if (this.state_notification == null) {
+				this.state_notification = new Notify.Notification("", null, null);
+			}
+			
+			this.state_notification.update(
+				(device.state == Up.DeviceState.FULLY_CHARGED) ?
+					Common.get_battery_status(device) :
+					Common.get_battery_status_with_percentage(device),
+				(device.state == Up.DeviceState.FULLY_CHARGED) ?
+					null :
+					"Remaining time: %s".printf(Common.get_remaining_time(device)),
+				Common.get_battery_icon(device)
+			);
+			
+			this.state_notification.show();
+			
+		}
+		
 		private void connect_to_logind() {
 			/**
 			 * Connects to the logind interface.
@@ -196,6 +223,7 @@ namespace PowerPlugin {
 							if (device.is_present && device.power_supply && device.kind == Up.DeviceKind.BATTERY) {
 								/* Connect */
 								device.notify["percentage"].connect(this.on_power_supply_percentage_change);
+								device.notify["state"].connect(this.on_power_supply_state_change);
 							}
 						}
 					);
