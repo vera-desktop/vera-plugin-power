@@ -29,7 +29,7 @@ namespace PowerPlugin {
 		public const uint FULL_THRESHOLD = 90;
 		public const uint GOOD_THRESHOLD = 40;
 		public const uint LOW_THRESHOLD = 15;
-		public const uint EMPTY_THRESHOLD = 2;
+		public const uint EMPTY_THRESHOLD = 5;
 		
 		public static string get_remaining_time(Up.Device device) {
 			/**
