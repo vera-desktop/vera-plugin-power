@@ -1,3 +1,14 @@
+vera-plugin-power (0.24-1) devel; urgency=medium
+
+  * power: send a notification when the main battery is reaching the EMPTY_THRESHOLD.
+  * common: raise the EMPTY_THRESHOLD from 2 to 5.
+  * common: add SAFE_HIBERNATE_THRESHOLD.
+  * power: force the hibernation when the battery level reaches the SAFE_HIBERNATE_THRESHOLD.
+  * power: send notifications on battery state changes
+  * debian/control: build-depend on libnotify-dev.
+
+ -- Eugenio Paolantonio (g7) <me@medesimo.eu>  Sun, 14 Dec 2014 18:15:15 +0100
+
 vera-plugin-power (0.23-1) devel; urgency=medium
 
   * Updated bindings
