@@ -31,12 +31,18 @@ namespace PowerPlugin {
 		
 		public Display display;
 		public Settings settings;
-				
+		
+		private logindInterface? logind = null;
+		
+		private Notify.Notification? low_battery_notification = null;
+						
 		public void init(Display display) {
 			/**
 			 * Initializes the plugin.
 			*/
 			
+			if (!Notify.is_initted())
+				Notify.init("vera-plugin-power");
 			
 			try {
 				this.display = display;
@@ -92,6 +98,67 @@ namespace PowerPlugin {
 			return found;
 		}
 		
+		private void on_power_supply_percentage_change(Object _device, ParamSpec spec) {
+			/**
+			 * Fired when the percentage of a power supply changed.
+			*/
+			
+			Up.Device device = _device as Up.Device;
+			
+			if (device.state != Up.DeviceState.CHARGING && (device.percentage == Common.LOW_THRESHOLD || device.percentage <= Common.EMPTY_THRESHOLD)) {
+				/* Create notification if we should */
+				if (this.low_battery_notification == null) {
+					this.low_battery_notification = new Notify.Notification("", null, null);
+					this.low_battery_notification.set_urgency(Notify.Urgency.CRITICAL);
+					this.low_battery_notification.add_action("hibernate", "Hibernate now", this.on_notification_action_fired);
+				}
+				
+				/* Update notification with current data */
+				this.low_battery_notification.update(
+					"Low battery (%s%)".printf(device.percentage.to_string()),
+					(device.percentage > Common.EMPTY_THRESHOLD) ?
+						"Please save your work and prepare for the upcoming hibernation." :
+						"Your system will hibernate shortly.",
+					Common.get_battery_icon(device)
+				);
+				
+				this.low_battery_notification.show();
+			}
+			
+		}
+		
+		private void connect_to_logind() {
+			/**
+			 * Connects to the logind interface.
+			*/
+			
+			this.logind = Bus.get_proxy_sync(
+				BusType.SYSTEM,
+				"org.freedesktop.login1",
+				"/org/freedesktop/login1"
+			);
+		
+		}
+		
+		private void on_notification_action_fired(Notify.Notification notification, string action) {
+			/**
+			 * Fired when a notification button has been clicked.
+			*/
+						
+			switch (action) {
+				
+				case "hibernate":
+					
+					if (this.logind == null)
+						this.connect_to_logind();
+					
+					this.logind.Hibernate(true);
+					break;
+			
+			}
+			
+		}
+		
 		public void startup(StartupPhase phase) {
 			/**
 			 * Called by vera when doing the startup.
@@ -103,6 +170,23 @@ namespace PowerPlugin {
 				
 				if (this.check_for_batteries()) {
 					this.create_power_tray();
+					
+					/*
+					 * Listen to main battery changes.
+					 * We could hook this in check_for_batteries() but it's
+					 * not the right thing to do, so we loop again
+					 * through the available devices
+					*/
+					this.client.get_devices().foreach(
+						(device) => {
+							
+							if (device.is_present && device.power_supply && device.kind == Up.DeviceKind.BATTERY) {
+								/* Connect */
+								device.notify["percentage"].connect(this.on_power_supply_percentage_change);
+							}
+						}
+					);
+
 				}
 				
 				/* Show/remove tray when needed */
