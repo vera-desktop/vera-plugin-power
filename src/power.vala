@@ -105,7 +105,10 @@ namespace PowerPlugin {
 			
 			Up.Device device = _device as Up.Device;
 			
-			if (device.state != Up.DeviceState.CHARGING && (device.percentage == Common.LOW_THRESHOLD || device.percentage <= Common.EMPTY_THRESHOLD)) {
+			if (device.state != Up.DeviceState.CHARGING && device.percentage <= Common.SAFE_HIBERNATE_THRESHOLD) {
+				/* No time to display the notification and wait for the user, simply hibernate */
+				this.hibernate();
+			} else if (device.state != Up.DeviceState.CHARGING && (device.percentage == Common.LOW_THRESHOLD || device.percentage <= Common.EMPTY_THRESHOLD)) {
 				/* Create notification if we should */
 				if (this.low_battery_notification == null) {
 					this.low_battery_notification = new Notify.Notification("", null, null);
@@ -140,6 +143,19 @@ namespace PowerPlugin {
 		
 		}
 		
+		private void hibernate() {
+			/**
+			 * Hibernates the system.
+			*/
+
+			if (this.logind == null)
+				this.connect_to_logind();
+			
+			this.logind.Hibernate(true);
+			
+		}
+			
+		
 		private void on_notification_action_fired(Notify.Notification notification, string action) {
 			/**
 			 * Fired when a notification button has been clicked.
@@ -149,10 +165,7 @@ namespace PowerPlugin {
 				
 				case "hibernate":
 					
-					if (this.logind == null)
-						this.connect_to_logind();
-					
-					this.logind.Hibernate(true);
+					this.hibernate();
 					break;
 			
 			}
