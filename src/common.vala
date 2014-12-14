@@ -26,10 +26,11 @@ namespace PowerPlugin {
 		 * Common static methods.
 		*/
 
-		private const uint FULL_THRESHOLD = 90;
-		private const uint GOOD_THRESHOLD = 40;
-		private const uint LOW_THRESHOLD = 15;
-		private const uint EMPTY_THRESHOLD = 2;
+		public const uint FULL_THRESHOLD = 90;
+		public const uint GOOD_THRESHOLD = 40;
+		public const uint LOW_THRESHOLD = 15;
+		public const uint EMPTY_THRESHOLD = 5;
+		public const uint SAFE_HIBERNATE_THRESHOLD = 2;
 		
 		public static string get_remaining_time(Up.Device device) {
 			/**

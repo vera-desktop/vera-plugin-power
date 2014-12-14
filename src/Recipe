@@ -31,7 +31,7 @@ libraries.power {
 	link-flags = -flto -Wl,--as-needed
 	vala-compile-flags = --vapidir=../vapis
 	
-	vala-packages = gee-1.0 libpeas-1.0 gtk+-3.0 vera x11 upower-glib
-	packages = gee-1.0 libpeas-1.0 gtk+-3.0 vera x11 upower-glib
+	vala-packages = gee-1.0 libpeas-1.0 gtk+-3.0 vera x11 upower-glib libnotify
+	packages = gee-1.0 libpeas-1.0 gtk+-3.0 vera x11 upower-glib libnotify
 
 }
