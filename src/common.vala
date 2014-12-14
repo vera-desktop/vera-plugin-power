@@ -30,6 +30,7 @@ namespace PowerPlugin {
 		public const uint GOOD_THRESHOLD = 40;
 		public const uint LOW_THRESHOLD = 15;
 		public const uint EMPTY_THRESHOLD = 5;
+		public const uint SAFE_HIBERNATE_THRESHOLD = 2;
 		
 		public static string get_remaining_time(Up.Device device) {
 			/**
