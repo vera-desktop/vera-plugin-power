@@ -36,6 +36,8 @@ namespace PowerPlugin {
 		
 		private Notify.Notification? low_battery_notification = null;
 		private Notify.Notification? state_notification = null;
+		
+		private Up.DeviceState? last_state = null;
 						
 		public void init(Display display) {
 			/**
@@ -133,10 +135,16 @@ namespace PowerPlugin {
 		
 		private void on_power_supply_state_change(Object _device, ParamSpec spec) {
 			/**
-			 * Fired when the power supply percentage has been changed.
+			 * Fired when the power supply state has been changed.
 			*/
 			
 			Up.Device device = _device as Up.Device;
+			
+			/* Do not notify again if the state is the same */
+			if (this.last_state == device.state)
+				return;
+			else
+				this.last_state = (Up.DeviceState)(device.state);
 			
 			/* Create notification if we should */
 			if (this.state_notification == null) {
