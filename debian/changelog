@@ -1,3 +1,9 @@
+vera-plugin-power (0.25-1) devel; urgency=medium
+
+  * power: do not display the same power supply state change notification more than one time.
+
+ -- Eugenio Paolantonio (g7) <me@medesimo.eu>  Sat, 20 Dec 2014 22:22:30 +0100
+
 vera-plugin-power (0.24-1) devel; urgency=medium
 
   * power: send a notification when the main battery is reaching the EMPTY_THRESHOLD.
