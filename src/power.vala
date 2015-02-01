@@ -37,7 +37,8 @@ namespace PowerPlugin {
 		private Notify.Notification? low_battery_notification = null;
 		private Notify.Notification? state_notification = null;
 		
-		private Up.DeviceState? last_state = null;
+		/* uint is Up.DeviceState, we avoid useless casting for these automatic checks */
+		private HashTable<Up.Device, uint> last_state = new HashTable<Up.Device, uint>(direct_hash, direct_equal);
 						
 		public void init(Display display) {
 			/**
@@ -141,10 +142,10 @@ namespace PowerPlugin {
 			Up.Device device = _device as Up.Device;
 			
 			/* Do not notify again if the state is the same */
-			if (this.last_state == device.state)
+			if (this.last_state.get(device) == device.state)
 				return;
 			else
-				this.last_state = (Up.DeviceState)(device.state);
+				this.last_state.set(device, device.state);
 			
 			/* Create notification if we should */
 			if (this.state_notification == null) {
@@ -229,6 +230,9 @@ namespace PowerPlugin {
 						(device) => {
 							
 							if (device.is_present && device.power_supply && device.kind == Up.DeviceKind.BATTERY) {
+								/* Save last state to avoid redundant notifications */
+								this.last_state.set(device, device.state);
+								
 								/* Connect */
 								device.notify["percentage"].connect(this.on_power_supply_percentage_change);
 								device.notify["state"].connect(this.on_power_supply_state_change);
