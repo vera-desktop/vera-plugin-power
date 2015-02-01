@@ -1,3 +1,10 @@
+vera-plugin-power (0.26-1) devel; urgency=medium
+
+  * Store last_state for every subscribed battery, and ensure we do that also at first start.
+  * Common: do not output the minutes part if time_ is 0. Also properly handle singulars.
+
+ -- Eugenio Paolantonio (g7) <me@medesimo.eu>  Sun, 01 Feb 2015 11:45:02 +0100
+
 vera-plugin-power (0.25-1) devel; urgency=medium
 
   * power: do not display the same power supply state change notification more than one time.
