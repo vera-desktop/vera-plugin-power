@@ -56,11 +56,26 @@ namespace PowerPlugin {
 			
 			if (hours >= 1) {
 				/* Hours! */
-				result += @"$hours hours ";
+				result += "%lld %s".printf(
+					hours,
+					(hours == 1) ?
+						"hour" :
+						"hours"
+				);
 				time_ -= hours * 60;
 			}
-			
-			result += @"$time_ minutes";
+			if (time_ > 0) {
+				/* Minutes */
+				result += "%s%lld %s".printf(
+					(hours >= 1) ? /* Separator */
+						" " :
+						"",
+					time_,
+					(time_ == 1) ?
+						"minute" :
+						"minutes"
+				);
+			}
 			
 			return result;
 		}
