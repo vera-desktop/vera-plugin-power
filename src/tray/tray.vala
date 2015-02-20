@@ -30,7 +30,7 @@ namespace PowerPlugin {
 		
 		private Gtk.StatusIcon status;
 		private PowerMenu menu;
-		private PowerPreferencesMenu preferences;
+		//private PowerPreferencesMenu preferences;
 		
 		private Up.Client client;
 		
@@ -91,24 +91,25 @@ namespace PowerPlugin {
 
 		}
 		
-		//private void open_popup(uint? button = null, uint? time = null) {
-		private void open_popup() {
+		private void open_popup(uint button = 0, uint time = Gtk.get_current_event_time()) {
 			/**
 			 * Opens the menu.
 			*/
 			
-			this.menu.popup(null, null, null, 0, Gtk.get_current_event_time());
+			this.menu.popup(null, null, null, button, time);
 			
 		}
 		
+		/*
 		private void open_preferences(uint button, uint time) {
 			/**
 			 * Opens the preferences menu.
-			*/
+			/
 			
 			this.preferences.popup(null, null, null, button, time);
 			
 		}
+		*/
 	
 		public PowerTray(Up.Client client) {
 			/**
@@ -120,10 +121,10 @@ namespace PowerPlugin {
 			this.status = new Gtk.StatusIcon();
 			
 			this.menu = new PowerMenu();
-			this.status.activate.connect(this.open_popup);
+			this.status.activate.connect(() => { this.open_popup(); });
 			
-			this.preferences = new PowerPreferencesMenu();
-			this.status.popup_menu.connect(this.open_preferences);
+			//this.preferences = new PowerPreferencesMenu();
+			this.status.popup_menu.connect(this.open_popup);
 			
 			this.status.set_visible(true);
 			
