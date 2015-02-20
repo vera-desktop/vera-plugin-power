@@ -1,3 +1,9 @@
+vera-plugin-power (0.27-1) devel; urgency=medium
+
+  * tray: use the PowerMenu for both left and right button clicks.
+
+ -- Eugenio Paolantonio (g7) <me@medesimo.eu>  Fri, 20 Feb 2015 11:33:00 +0100
+
 vera-plugin-power (0.26-1) devel; urgency=medium
 
   * Store last_state for every subscribed battery, and ensure we do that also at first start.
