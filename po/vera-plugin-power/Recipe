@@ -19,20 +19,7 @@
 #     Eugenio "g7" Paolantonio <me@medesimo.eu>
 #
 
-libraries.power {
-	install-directory = $(options.library-directory)/vera/plugins
-	sources = \
-		common.vala \
-		power.vala \
-		tray/batterymenu.vala \
-		tray/preferencesmenu.vala \
-		tray/tray.vala
-	compile-flags = -O2 -flto -include config.h
-	link-flags = -flto -Wl,--as-needed
-	vala-compile-flags = --vapidir=../vapis
+data.translations {
+	gettext-translations =
 	gettext-domain = vera-plugin-power
-	
-	vala-packages = gee-1.0 libpeas-1.0 gtk+-3.0 vera x11 upower-glib libnotify
-	packages = gee-1.0 libpeas-1.0 gtk+-3.0 vera x11 upower-glib libnotify
-
 }

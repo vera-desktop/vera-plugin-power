@@ -21,6 +21,8 @@
 
 using Vera;
 
+const string GETTEXT_PACKAGE = "vera-plugin-power";
+
 namespace PowerPlugin {
 
 	public class Plugin : VeraPlugin, Peas.ExtensionBase {
@@ -47,6 +49,11 @@ namespace PowerPlugin {
 			
 			if (!Notify.is_initted())
 				Notify.init("vera-plugin-power");
+
+			/* Translations */
+			Intl.setlocale(LocaleCategory.MESSAGES, "");
+			Intl.textdomain(GETTEXT_PACKAGE); 
+			Intl.bind_textdomain_codeset(GETTEXT_PACKAGE, "utf-8");
 			
 			try {
 				this.display = display;
@@ -117,15 +124,15 @@ namespace PowerPlugin {
 				if (this.low_battery_notification == null) {
 					this.low_battery_notification = new Notify.Notification("", null, null);
 					this.low_battery_notification.set_urgency(Notify.Urgency.CRITICAL);
-					this.low_battery_notification.add_action("hibernate", "Hibernate now", this.on_notification_action_fired);
+					this.low_battery_notification.add_action("hibernate", _("Hibernate now"), this.on_notification_action_fired);
 				}
 				
 				/* Update notification with current data */
 				this.low_battery_notification.update(
-					"Low battery (%s%)".printf(device.percentage.to_string()),
+					_("Low battery (%s%)").printf(device.percentage.to_string()),
 					(device.percentage > Common.EMPTY_THRESHOLD) ?
-						"Please save your work and prepare for the upcoming hibernation." :
-						"Your system will hibernate shortly.",
+						_("Please save your work and prepare for the upcoming hibernation.") :
+						_("The system will hibernate shortly."),
 					Common.get_battery_icon(device)
 				);
 				
@@ -158,7 +165,7 @@ namespace PowerPlugin {
 					Common.get_battery_status_with_percentage(device),
 				(device.state == Up.DeviceState.FULLY_CHARGED) ?
 					null :
-					"Remaining time: %s".printf(Common.get_remaining_time(device)),
+					_("Remaining time: %s").printf(Common.get_remaining_time(device)),
 				Common.get_battery_icon(device)
 			);
 			

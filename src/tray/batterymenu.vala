@@ -90,7 +90,7 @@ namespace PowerPlugin {
 				string label, icon;
 				icon = Common.get_device_icon(device);
 				if (device.vendor != null && device.model != null) {
-					label = @"$(device.vendor) $(device.model)";
+					label = "%s %s".printf(device.vendor, device.model);
 				} else {
 					label = Up.Device.kind_to_string((Up.DeviceKind)device.kind);
 				}
@@ -130,7 +130,7 @@ namespace PowerPlugin {
 			/* Time */
 			string device_time = Common.get_remaining_time(device);
 			if (device_time != null) {
-				dev_.battery_time.set_label(@"$device_time remaining");
+				dev_.battery_time.set_label(_("%s remaining").printf(device_time));
 				dev_.battery_time.show();
 			} else {
 				dev_.battery_time.hide();
