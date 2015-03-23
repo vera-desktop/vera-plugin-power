@@ -130,6 +130,16 @@ namespace PowerPlugin {
 			/* Time */
 			string device_time = Common.get_remaining_time(device);
 			if (device_time != null) {
+				/*
+				 * FIXME: In some languages we need to translate "remaining" also to a plural
+				 * form.
+				 * e.g. "1 hour remaining." -> "1 ora rimanente" (Italian)
+				 * "2 hours remaining." -> "2 ore rimanenti" (Italian).
+				 * 
+				 * We can't currently control this for translations (as in English "remaining"
+				 * works for both plural and singular forms), so we advise to translate
+				 * only to the more probable plural form ("rimanenti" in this case).
+				*/
 				dev_.battery_time.set_label(_("%s remaining").printf(device_time));
 				dev_.battery_time.show();
 			} else {

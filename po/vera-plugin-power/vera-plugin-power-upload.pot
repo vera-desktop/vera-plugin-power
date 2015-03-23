@@ -66,6 +66,6 @@ msgstr ""
 msgid "Remaining time: %s"
 msgstr ""
 
-#: tray/batterymenu.vala:133
+#: tray/batterymenu.vala:143
 msgid "%s remaining"
 msgstr ""
