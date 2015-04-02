@@ -90,7 +90,7 @@ namespace PowerPlugin {
 				string label, icon;
 				icon = Common.get_device_icon(device);
 				if (device.vendor != null && device.model != null) {
-					label = @"$(device.vendor) $(device.model)";
+					label = "%s %s".printf(device.vendor, device.model);
 				} else {
 					label = Up.Device.kind_to_string((Up.DeviceKind)device.kind);
 				}
@@ -130,7 +130,17 @@ namespace PowerPlugin {
 			/* Time */
 			string device_time = Common.get_remaining_time(device);
 			if (device_time != null) {
-				dev_.battery_time.set_label(@"$device_time remaining");
+				/*
+				 * FIXME: In some languages we need to translate "remaining" also to a plural
+				 * form.
+				 * e.g. "1 hour remaining." -> "1 ora rimanente" (Italian)
+				 * "2 hours remaining." -> "2 ore rimanenti" (Italian).
+				 * 
+				 * We can't currently control this for translations (as in English "remaining"
+				 * works for both plural and singular forms), so we advise to translate
+				 * only to the more probable plural form ("rimanenti" in this case).
+				*/
+				dev_.battery_time.set_label(_("%s remaining").printf(device_time));
 				dev_.battery_time.show();
 			} else {
 				dev_.battery_time.hide();

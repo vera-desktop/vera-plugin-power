@@ -59,8 +59,8 @@ namespace PowerPlugin {
 				result += "%lld %s".printf(
 					hours,
 					(hours == 1) ?
-						"hour" :
-						"hours"
+						_("hour") :
+						_("hours")
 				);
 				time_ -= hours * 60;
 			}
@@ -72,8 +72,8 @@ namespace PowerPlugin {
 						"",
 					time_,
 					(time_ == 1) ?
-						"minute" :
-						"minutes"
+						_("minute") :
+						_("minutes")
 				);
 			}
 			
@@ -119,23 +119,23 @@ namespace PowerPlugin {
 			switch (device.state) {
 				
 				case Up.DeviceState.CHARGING:
-					status = "Charging";
+					status = _("Charging");
 					break;
 				
 				case Up.DeviceState.FULLY_CHARGED:
-					status = "Fully charged";
+					status = _("Fully charged");
 					break;
 				
 				case Up.DeviceState.DISCHARGING:
-					status = "Discharging";
+					status = _("Discharging");
 					break;
 				
 				case Up.DeviceState.EMPTY:
-					status = "Empty";
+					status = _("Empty");
 					break;
 				
 				default:
-					status = "Unknown";
+					status = _("Unknown");
 					break;
 			
 			}

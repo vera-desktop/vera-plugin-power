@@ -19,8 +19,11 @@
 #     Eugenio "g7" Paolantonio <me@medesimo.eu>
 #
 
-project {
-	name = vera-plugin-power
-	version = 0.28
-	minimum-bake-version = 0.1
+data.translations {
+	gettext-translations = \
+		it.po \
+		nl_NL.po \
+		fr.po \
+		hu.po
+	gettext-domain = vera-plugin-power
 }
