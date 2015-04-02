@@ -20,6 +20,10 @@
 #
 
 data.translations {
-	gettext-translations =
+	gettext-translations = \
+		it.po \
+		nl_NL.po \
+		fr.po \
+		hu.po
 	gettext-domain = vera-plugin-power
 }
