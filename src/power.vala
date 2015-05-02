@@ -34,8 +34,12 @@ namespace PowerPlugin {
 		public Display display;
 		public Settings settings;
 		
-		private logindInterface? logind = null;
+		private Cancellable cancellable;
 		
+		private logindInterface? logind = null;
+		private VeraPowerManager verapm = null;
+		
+		private Notify.Notification? brightness_notification = null;
 		private Notify.Notification? low_battery_notification = null;
 		private Notify.Notification? state_notification = null;
 		
@@ -108,6 +112,25 @@ namespace PowerPlugin {
 			
 			return found;
 		}
+		
+		private void on_brightness_changed() {
+			/**
+			 * Fired when the brightness level changed.
+			*/
+			
+			/* Create notification if we should */
+			if (this.brightness_notification == null) {
+				this.brightness_notification = new Notify.Notification(_("Brightness"), null, "display-brightness-symbolic");
+			}
+			
+			try {
+				/* Update notification with current data */
+				this.brightness_notification.set_hint("value", new Variant("i", this.verapm.GetBrightness()));
+				
+				this.brightness_notification.show();
+			} catch (Error e) {}
+		}
+				
 		
 		private void on_power_supply_percentage_change(Object _device, ParamSpec spec) {
 			/**
@@ -222,6 +245,21 @@ namespace PowerPlugin {
 			
 			if (phase == StartupPhase.OTHER || phase == StartupPhase.SESSION) {
 				
+				/* Create cancellable */
+				this.cancellable = new Cancellable();
+				
+				/* Connect to vera-power-manager */
+				this.verapm = Bus.get_proxy_sync(
+					BusType.SYSTEM,
+					"org.semplicelinux.vera.powermanager",
+					"/org/semplicelinux/vera/powermanager",
+					DBusProxyFlags.DO_NOT_AUTO_START,
+					this.cancellable
+				);
+				
+				/* Subscribe to BrighnessChanged */
+				this.verapm.BrightnessChanged.connect(this.on_brightness_changed);
+				
 				this.client = new Up.Client();
 				
 				if (this.check_for_batteries()) {
@@ -274,6 +312,7 @@ namespace PowerPlugin {
 			 * Cleanup.
 			*/
 			
+			this.cancellable.cancel();
 			this.destroy_power_tray();
 			this.client = null;
 			
