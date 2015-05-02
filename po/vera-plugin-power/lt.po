@@ -1,11 +1,12 @@
 # 
 # Translators:
+# Moo, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: vera-plugin-power\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-03-23 09:03+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2015-05-02 21:25+0000\n"
+"Last-Translator: g7 <me@medesimo.eu>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/projects/p/vera-plugin-power/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -15,60 +16,64 @@ msgstr ""
 
 #: common.vala:62
 msgid "hour"
-msgstr ""
+msgstr "valanda"
 
 #: common.vala:63
 msgid "hours"
-msgstr ""
+msgstr "valandų"
 
 #: common.vala:75
 msgid "minute"
-msgstr ""
+msgstr "minutė"
 
 #: common.vala:76
 msgid "minutes"
-msgstr ""
+msgstr "minučių"
 
 #: common.vala:122
 msgid "Charging"
-msgstr ""
+msgstr "Įkraunama"
 
 #: common.vala:126
 msgid "Fully charged"
-msgstr ""
+msgstr "Pilnai įkrauta"
 
 #: common.vala:130
 msgid "Discharging"
-msgstr ""
+msgstr "Išsikrauna"
 
 #: common.vala:134
 msgid "Empty"
-msgstr ""
+msgstr "Tuščia"
 
 #: common.vala:138
 msgid "Unknown"
+msgstr "Nežinoma"
+
+#: power.vala:123
+msgid "Brightness"
 msgstr ""
 
-#: power.vala:127
+#: power.vala:150
 msgid "Hibernate now"
-msgstr ""
+msgstr "Užmigdyti dabar"
 
-#: power.vala:132
+#: power.vala:155
 msgid "Low battery (%s%)"
-msgstr ""
+msgstr "Žemas akumuliatoriaus lygis (%s%)"
 
-#: power.vala:134
+#: power.vala:157
 msgid "Please save your work and prepare for the upcoming hibernation."
-msgstr ""
+msgstr "Prašome išsaugoti savo darbą ir pasiruošti artėjančiam užmigdymui."
 
-#: power.vala:135
+#: power.vala:158
 msgid "The system will hibernate shortly."
-msgstr ""
+msgstr "Sistema netrukus bus užmigdyta."
 
-#: power.vala:168
+#: power.vala:191
 msgid "Remaining time: %s"
-msgstr ""
+msgstr "Likęs laikas: %s"
 
-#: tray/batterymenu.vala:133
+#: tray/batterymenu.vala:143
 msgid "%s remaining"
-msgstr ""
+msgstr "liko %s"

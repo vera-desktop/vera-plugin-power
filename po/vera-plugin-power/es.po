@@ -1,11 +1,12 @@
 # 
 # Translators:
+# seacat <seacat.linux@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: vera-plugin-power\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-03-23 09:03+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2015-05-02 21:25+0000\n"
+"Last-Translator: g7 <me@medesimo.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/vera-plugin-power/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -15,60 +16,64 @@ msgstr ""
 
 #: common.vala:62
 msgid "hour"
-msgstr ""
+msgstr "hora"
 
 #: common.vala:63
 msgid "hours"
-msgstr ""
+msgstr "horas"
 
 #: common.vala:75
 msgid "minute"
-msgstr ""
+msgstr "minuto"
 
 #: common.vala:76
 msgid "minutes"
-msgstr ""
+msgstr "minutos"
 
 #: common.vala:122
 msgid "Charging"
-msgstr ""
+msgstr "Cargando"
 
 #: common.vala:126
 msgid "Fully charged"
-msgstr ""
+msgstr "Completamente cargado"
 
 #: common.vala:130
 msgid "Discharging"
-msgstr ""
+msgstr "Descargando"
 
 #: common.vala:134
 msgid "Empty"
-msgstr ""
+msgstr "Vacío"
 
 #: common.vala:138
 msgid "Unknown"
+msgstr "Desconocido"
+
+#: power.vala:123
+msgid "Brightness"
 msgstr ""
 
-#: power.vala:127
+#: power.vala:150
 msgid "Hibernate now"
-msgstr ""
+msgstr "Hibernar ahora"
 
-#: power.vala:132
+#: power.vala:155
 msgid "Low battery (%s%)"
-msgstr ""
+msgstr "Batería baja (%s%)"
 
-#: power.vala:134
+#: power.vala:157
 msgid "Please save your work and prepare for the upcoming hibernation."
-msgstr ""
+msgstr "Por favor guarde su trabajo y prepárese para la próxima hibernación."
 
-#: power.vala:135
+#: power.vala:158
 msgid "The system will hibernate shortly."
-msgstr ""
+msgstr "El sistema hibernará en breve."
 
-#: power.vala:168
+#: power.vala:191
 msgid "Remaining time: %s"
-msgstr ""
+msgstr "Tiempo restante: %s"
 
-#: tray/batterymenu.vala:133
+#: tray/batterymenu.vala:143
 msgid "%s remaining"
-msgstr ""
+msgstr "%s restante"

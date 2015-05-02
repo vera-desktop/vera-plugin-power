@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vera-plugin-power\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2015-03-28 11:01+0000\n"
-"Last-Translator: Puskas-Kolozsvari Frederic <pkfric@yahoo.com>\n"
+"PO-Revision-Date: 2015-05-02 21:25+0000\n"
+"Last-Translator: g7 <me@medesimo.eu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/vera-plugin-power/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,26 +50,30 @@ msgstr "Üres"
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: power.vala:127
+#: power.vala:123
+msgid "Brightness"
+msgstr ""
+
+#: power.vala:150
 msgid "Hibernate now"
 msgstr "Hibernálás most"
 
-#: power.vala:132
+#: power.vala:155
 msgid "Low battery (%s%)"
 msgstr "Alacsony akkuszint (%s%)"
 
-#: power.vala:134
+#: power.vala:157
 msgid "Please save your work and prepare for the upcoming hibernation."
 msgstr "Kérjük mentse el a munkáját és készüljön fel a soron következő hibernálásra."
 
-#: power.vala:135
+#: power.vala:158
 msgid "The system will hibernate shortly."
 msgstr "A rendszer hamarosan hibernálásra kerül."
 
-#: power.vala:168
+#: power.vala:191
 msgid "Remaining time: %s"
 msgstr "Fennmaradó idő: %s"
 
-#: tray/batterymenu.vala:133
+#: tray/batterymenu.vala:143
 msgid "%s remaining"
 msgstr "%s maradt"
