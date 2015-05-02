@@ -46,23 +46,27 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: power.vala:127
+#: power.vala:123
+msgid "Brightness"
+msgstr ""
+
+#: power.vala:150
 msgid "Hibernate now"
 msgstr ""
 
-#: power.vala:132
+#: power.vala:155
 msgid "Low battery (%s%)"
 msgstr ""
 
-#: power.vala:134
+#: power.vala:157
 msgid "Please save your work and prepare for the upcoming hibernation."
 msgstr ""
 
-#: power.vala:135
+#: power.vala:158
 msgid "The system will hibernate shortly."
 msgstr ""
 
-#: power.vala:168
+#: power.vala:191
 msgid "Remaining time: %s"
 msgstr ""
 
