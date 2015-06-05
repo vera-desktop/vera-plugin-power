@@ -139,7 +139,7 @@ namespace PowerPlugin {
 			
 			Up.Device device = _device as Up.Device;
 			
-			if (device.state != Up.DeviceState.CHARGING && device.percentage <= Common.SAFE_HIBERNATE_THRESHOLD) {
+			if (device.state != Up.DeviceState.CHARGING && (device.percentage > 0 && device.percentage <= Common.SAFE_HIBERNATE_THRESHOLD)) {
 				/* No time to display the notification and wait for the user, simply hibernate */
 				this.hibernate();
 			} else if (device.state != Up.DeviceState.CHARGING && (device.percentage == Common.LOW_THRESHOLD || device.percentage <= Common.EMPTY_THRESHOLD)) {
