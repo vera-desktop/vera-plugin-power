@@ -1,3 +1,9 @@
+vera-plugin-power (1.0.2-1) unstable; urgency=medium
+
+  * [power] Don't react when the battery level goes to 0% (Contributes to #1).
+
+ -- Eugenio Paolantonio (g7) <me@medesimo.eu>  Fri, 05 Jun 2015 16:56:03 +0200
+
 vera-plugin-power (1.0.1-1) unstable; urgency=medium
 
   * power: react to vera-power-manager's BrightnessChanged() signal with a notification.
