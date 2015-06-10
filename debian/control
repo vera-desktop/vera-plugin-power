@@ -11,7 +11,7 @@ Vcs-Browser: https://github.com/vera-desktop/vera-plugin-power
 
 Package: vera-plugin-power
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, vera-desktop, vera-power-manager (>= 1.0.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, vera-desktop, vera-power-manager (>= 1.0.4)
 Description: vera power plugin
  vera-plugin-power is the vera plugin that shows the informations
  of the currently plugged batteries.
