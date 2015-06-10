@@ -113,7 +113,7 @@ namespace PowerPlugin {
 			return found;
 		}
 		
-		private void on_brightness_changed() {
+		private void on_brightness_changed(int level) {
 			/**
 			 * Fired when the brightness level changed.
 			*/
@@ -125,7 +125,7 @@ namespace PowerPlugin {
 			
 			try {
 				/* Update notification with current data */
-				this.brightness_notification.set_hint("value", new Variant("i", this.verapm.GetBrightness()));
+				this.brightness_notification.set_hint("value", new Variant("i", level));
 				
 				this.brightness_notification.show();
 			} catch (Error e) {}

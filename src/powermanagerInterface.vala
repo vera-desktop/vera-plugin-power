@@ -28,7 +28,7 @@ namespace Vera {
 		 * The VeraPowerManager DBus interface.
 		*/ 
 		
-		public signal void BrightnessChanged();
+		public signal void BrightnessChanged(int level);
 		
 		public abstract void IncreaseBrightness() throws IOError;
 		public abstract void DecreaseBrightness() throws IOError;
