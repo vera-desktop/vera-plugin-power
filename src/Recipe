@@ -30,10 +30,10 @@ libraries.power {
 		tray/tray.vala
 	compile-flags = -O2 -flto -include config.h
 	link-flags = -flto -Wl,--as-needed
-	vala-compile-flags = --vapidir=../vapis
 	gettext-domain = vera-plugin-power
+	vala-compile-flags = --metadatadir=../metadata
 	
-	vala-packages = gee-1.0 libpeas-1.0 gtk+-3.0 vera x11 upower-glib libnotify
+	vala-packages = gee-1.0 libpeas-1.0 gtk+-3.0 vera x11 UPowerGlib-1.0 libnotify
 	packages = gee-1.0 libpeas-1.0 gtk+-3.0 vera x11 upower-glib libnotify
 
 }
